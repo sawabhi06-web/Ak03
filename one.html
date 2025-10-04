@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are My Everything</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    animation: fadeIn 2s ease-in;
+    position: relative;
+    text-align: center;
+    padding-top: 50px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeInUp 2s forwards;
+  }
+
+  .envelope {
+    width: 200px;
+    height: 120px;
+    background: white;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInUp 2.5s forwards;
+    margin-bottom: 20px;
+  }
+
+  .envelope:before, .envelope:after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 60px 100px 0 100px;
+    border-color: #ec4899 transparent transparent transparent;
+    top: 0;
+    left: 0;
+  }
+
+  .click-btn {
+    position: absolute;
+    z-index: 2;
+    padding: 8px 16px;
+    background: #ec4899;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .click-btn:hover { background: #f472b6; }
+
+  .letter {
+    width: 300px;
+    max-width: 90vw;
+    background: white;
+    color: #ec4899;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.5;
+    font-size: 1rem;
+    display: none;
+    animation: fadeInUp 1.5s forwards;
+    margin-bottom: 20px;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 1.5rem;
+    color: #ff4d6d;
+    animation: rise linear infinite, heartGlow 2s infinite alternate;
+    text-shadow: 0 0 6px #ff4d6d, 0 0 12px #ff80ab, 0 0 18px #f472b6;
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+  }
+
+  @keyframes heartGlow {
+    from { text-shadow: 0 0 4px #ff4d6d, 0 0 8px #ff80ab, 0 0 12px #f472b6; }
+    to { text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff80ab, 0 0 30px #f472b6; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+
+  .scroll-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 14px;
+    background: #ec4899;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 1000;
+  }
+
+  .scroll-btn:hover { background: #f472b6; }
+
+  .surprise-box {
+    width: 90%;
+    max-width: 800px;
+    display: none;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    box-shadow: 0 0 20px #ff80ab, 0 0 40px #f472b6, 0 0 60px #ec4899;
+    animation: slideIn 1s forwards;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes hoverSequence {
+    0%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+  }
+
+  .surprise-box div {
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px;
+  }
+
+  .surprise-box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: block;
+    animation: hoverSequence 3s infinite;
+  }
+
+  .surprise-box div:nth-child(1) img { animation-delay: 0s; }
+  .surprise-box div:nth-child(2) img { animation-delay: 0.4s; }
+  .surprise-box div:nth-child(3) img { animation-delay: 0.8s; }
+  .surprise-box div:nth-child(4) img { animation-delay: 1.2s; }
+  .surprise-box div:nth-child(5) img { animation-delay: 1.6s; }
+  .surprise-box div:nth-child(6) img { animation-delay: 2s; }
+  .surprise-box div:nth-child(7) img { animation-delay: 2.4s; }
+
+  @keyframes hoverGlow {
+    0%, 80%, 100% { transform: scale(1); text-shadow: 0 0 2px #fff, 0 0 4px #ff80ab; }
+    40% { transform: scale(1.2); text-shadow: 0 0 12px #ff4d6d, 0 0 20px #f472b6; }
+  }
+
+  .surprise-box .letter-text {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 5px;
+    display: block;
+    animation: hoverGlow 3s infinite;
+  }
+
+  .surprise-box div:nth-child(1) .letter-text { animation-delay: 0s; }
+  .surprise-box div:nth-child(2) .letter-text { animation-delay: 0.4s; }
+  .surprise-box div:nth-child(3) .letter-text { animation-delay: 0.8s; }
+  .surprise-box div:nth-child(4) .letter-text { animation-delay: 1.2s; }
+  .surprise-box div:nth-child(5) .letter-text { animation-delay: 1.6s; }
+  .surprise-box div:nth-child(6) .letter-text { animation-delay: 2s; }
+  .surprise-box div:nth-child(7) .letter-text { animation-delay: 2.4s; }
+
+  .big-img-container {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  .big-img-container img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    cursor: grab;
+    position: relative;
+    touch-action: none;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    background: #ec4899;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10001;
+  }
+
+  @media screen and (max-width: 480px) {
+    h1 { font-size: 2rem; }
+    .letter { width: 95%; font-size: 0.9rem; padding: 15px; }
+    .envelope { width: 150px; height: 100px; }
+    .click-btn { padding: 6px 12px; font-size: 14px; }
+    .surprise-box img { width: 70px; height: 70px; }
+    .surprise-box .letter-text { font-size: 16px; }
+    .scroll-btn { font-size: 16px; padding: 8px 12px; }
+  }
+
+</style>
+</head>
+<body>
+<h1>You Are My Everything</h1>
+
+<div class="envelope" id="envelope">
+  <button class="click-btn" onclick="showLetter()">Click Me</button>
+</div>
+
+<div class="letter" id="letter">
+  Hey You 💕,<br><br>
+  You know what? I think I’ve caught a little problem…<br>
+  Every time I see you, my heart skips a beat.<br>
+  Every time you smile, I forget everything else.<br>
+  And every time I hear your voice, it feels like the sweetest music to me.<br><br>
+  Soo… here’s my silly thoughts ,<br>
+  I wanna be your, forever partner-in-crime, cuddle-buddy, and favorite person in the world? 💍💖<br><br>
+  Your 💞💞
+  <br><br>
+  <button class="click-btn" onclick="showSurprise()">Tap Me See a Surprise</button>
+</div>
+
+<div class="surprise-box" id="surpriseBox">
+  <div>
+    <img src="https://i.ibb.co/JwFVvS3s/IMG-20251004-083450.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">I</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/ynjwVTQm/IMG-20251004-083512.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">L</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/35zrCdrM/IMG-20251004-083422.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">U</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/ksG0ttRn/IMG-20251004-083558.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">V</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/mr4rLHqN/IMG-20251004-083619.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">Y</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/RkjSjxw1/IMG-20251004-083652.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">O</div>
+  </div>
+  <div>
+    <img src="https://i.ibb.co/SwkkzzVR/IMG-20251004-083721.jpg" onclick="openBigImage(this)">
+    <div class="letter-text">U</div>
+  </div>
+</div>
+
+<div class="big-img-container" id="bigImgContainer">
+  <button class="close-btn" onclick="closeBigImage()">X</button>
+  <img id="bigImg" src="">
+</div>
+
+<button class="scroll-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">↓</button>
+
+<script>
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "❤️";
+    document.body.appendChild(heart);
+    const size = Math.random() * 20 + 15 + "px";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = size;
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(createHeart, 500);
+
+  function showLetter() {
+    document.getElementById('envelope').style.display = 'none';
+    document.getElementById('letter').style.display = 'block';
+  }
+
+  function showSurprise() {
+    document.getElementById('surpriseBox').style.display = 'block';
+  }
+
+  function openBigImage(img) {
+    const bigImg = document.getElementById('bigImg');
+    bigImg.src = img.src;
+    document.getElementById('bigImgContainer').style.display = 'flex';
+    bigImg.style.transform = 'scale(1)';
+    scale = 1;
+    origX = 0;
+    origY = 0;
+  }
+
+  function closeBigImage() {
+    document.getElementById('bigImgContainer').style.display = 'none';
+  }
+
+  const bigImg = document.getElementById('bigImg');
+  let isDragging = false, startX, startY, origX = 0, origY = 0;
+  let scale = 1, startDist = 0, lastTap = 0;
+
+  bigImg.addEventListener('click', function(e){
+    if(e.pointerType==='touch') return;
+    toggleZoom(3);
+  });
+
+  bigImg.addEventListener('mousedown', function(e){
+    if(scale===1) return;
+    isDragging=true; startX=e.clientX; startY=e.clientY;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    const dx=e.clientX-startX; const dy=e.clientY-startY;
+    bigImg.style.transform=`scale(${scale}) translate(${origX+dx}px, ${origY+dy}px)`;
+  });
+
+  document.addEventListener('mouseup', function(e){
+    if(!isDragging) return;
+    const dx=e.clientX-startX; const dy=e.clientY-startY;
+    origX+=dx; origY+=dy; isDragging=false;
+  });
+
+  bigImg.addEventListener('touchstart', function(e){
+    if(e.touches.length===2){
+      startDist=Math.hypot(
+        e.touches[0].clientX-e.touches[1].clientX,
+        e.touches[0].clientY-e.touches[1].clientY
+      );
+    } else if(e.touches.length===1){
+      const currentTime=new Date().getTime();
+      const tapLength=currentTime-lastTap;
+      if(tapLength<300 && tapLength>0){ toggleZoom(3); }
+      lastTap=currentTime;
+    }
+  });
+
+  bigImg.addEventListener('touchmove', function(e){
+    if(e.touches.length===2){
+      const newDist=Math.hypot(
+        e.touches[0].clientX-e.touches[1].clientX,
+        e.touches[0].clientY-e.touches[1].clientY
+      );
+      const newScale=Math.min(Math.max((newDist/startDist)*scale,1),5);
+      bigImg.style.transform=`scale(${newScale}) translate(${origX}px, ${origY}px)`;
+    }
+  });
+
+  function toggleZoom(factor){
+    scale = (scale===1)? factor : 1;
+    bigImg.style.transform=`scale(${scale}) translate(${origX}px, ${origY}px)`;
+  }
+
+</script>
+</body>
+</html>
